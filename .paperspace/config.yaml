@@ -1,0 +1,18 @@
+enabled: true
+name: summaryai/api
+image: :image
+port: 3000
+healthChecks:
+  liveness:
+    path: /
+  readiness:
+    path: /
+resources:
+  replicas: 1
+  instanceType: C4
+  autoscaling:
+    maxReplicas: 2
+    metrics:
+      - metric: cpu
+        summary: average
+        value: 30

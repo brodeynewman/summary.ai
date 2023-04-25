@@ -12,6 +12,38 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
+      - name: Set docker tag name
+        run: echo "::set-output name=DOCKER_TAG_NAME::$(echo $GITHUB_REF | cut -d / -f 3 | sed 's/summaryai@//')"
+        id: docker-tag-name
+
+      - name: Set up docker build
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          working-directory: ./api
+          file: Dockerfile
+          push: true
+          tags: |
+            brodeynewman/summaryai:${{ steps.docker-tag-name.outputs.DOCKER_TAG_NAME }}
+
+      - uses: paperspace/deploy-action@v1.0
+        name: Deploy API
+        id: deploy
+        env:
+          PAPERSPACE_API_KEY: ${{ secrets.PAPERSPACE_API_KEY }}
+        with:
+          projectId: pq0q1mtej9w
+          configPath: .paperspace/config.yaml
+          image: brodeynewman/summaryai:${{ steps.docker-tag-name.outputs.DOCKER_TAG_NAME }}
+
       - name: Node setup
         uses: actions/setup-node@v1
         with:
