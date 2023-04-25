@@ -25,6 +25,7 @@ jobs:
           aws-region: us-east-1
 
       - name: npm install
+        working-directory: ./web
         run: npm i
       
       - name: build
