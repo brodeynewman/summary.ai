@@ -4,9 +4,9 @@ image: :image
 port: 3000
 healthChecks:
   readiness:
-    path: /health/index
+    path: /health
   liveness:
-    path: /health/index
+    path: /health
 resources:
   replicas: 1
   instanceType: C4
