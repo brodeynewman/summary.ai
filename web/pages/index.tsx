@@ -9,8 +9,8 @@ import {
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Question() {
-  const handleSubmit = (e) => {
-    console.log('submitting...', e);
+  const handleSubmit = () => {
+    console.log('submitting...');
   }
 
   return (
