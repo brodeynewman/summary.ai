@@ -9,6 +9,10 @@ import {
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Question() {
+  const handleSubmit = (e) => {
+    console.log('submitting...', e);
+  }
+
   return (
     <main
       className={`flex h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -16,10 +20,10 @@ export default function Question() {
       <div className="bg-white py-16 sm:py-24">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative isolate overflow-hidden px-6 py-24 sm:rounded-3xl sm:px-24 xl:py-32">
-            <p className="mx-auto mt-2 max-w-xl text-center text-lg leading-8 text-gray-900">
+            <h2 className="mx-auto mt-2 max-w-xl text-center text-lg leading-8 text-gray-900 font-bold">
               AI-powered book summarization. Ask it a question.
-            </p>
-            <form className="mx-auto mt-5 max-w-md gap-x-4">
+            </h2>
+            <form onSubmit={handleSubmit} className="mx-auto mt-5 max-w-md gap-x-4">
               <label htmlFor="question" className="sr-only">
                 Question
               </label>
@@ -34,12 +38,10 @@ export default function Question() {
                   placeholder="What do you think the authors intention was in writing this book?"
                 />
               </div>
-              {/* <button
-                type="submit"
-                className="w-24 mt-2 flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
+
+              <button type="submit" className="w-24 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Ask
-              </button> */}
+              </button>
             </form>
             <svg
               viewBox="0 0 1024 1024"
