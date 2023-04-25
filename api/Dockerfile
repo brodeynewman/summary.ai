@@ -1,5 +1,7 @@
 # Make sure it matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.2.2
+ARG RAILS_MASTER_KEY
+
 FROM ruby:$RUBY_VERSION
 
 # Install libvips for Active Storage preview support
@@ -24,11 +26,13 @@ RUN bundle install
 # Copy application code
 COPY . .
 
+ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+RUN --environment=production bundle exec rails assets:precompile
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
