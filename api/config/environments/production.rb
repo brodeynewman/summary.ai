@@ -55,8 +55,6 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "api_production"
 
-  config.action_mailer.perform_caching = false
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
@@ -85,5 +83,16 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Use a different cache store in production.
-  config.cache_store = :redis_cache_store, {  url: ENV['REDIS_URL']}
+  config.cache_store = :redis_cache_store, {
+    url: ENV['REDIS_URL'],
+    connect_timeout:    30,  # Defaults to 20 seconds
+    read_timeout:       0.2, # Defaults to 1 second
+    write_timeout:      0.2, # Defaults to 1 second
+    reconnect_attempts: 1,   # Defaults to 0
+
+    error_handler: -> (method:, returning:, exception:) {
+      Rails.logger.error "Redis error: #{exception}"
+    }
+  }
+  config.action_mailer.perform_caching = true
 end

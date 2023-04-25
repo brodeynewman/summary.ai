@@ -8,7 +8,8 @@ class QuestionsController < ApplicationController
 
     md5 = Digest::MD5.hexdigest params[:question]
 
-    answer = Rails.cache.fetch(md5, expires_in: 1.hour) do
+    # Cache our results as requests come in.
+    answer = Rails.cache.fetch(md5, expires_in: 12.hours) do
       "this is an answer"
     end
 
