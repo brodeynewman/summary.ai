@@ -2,7 +2,8 @@ name: Main
 
 on:
   push:
-    branches: [master] # the branch we want this to run on
+    tags:
+      - summaryai@*
 
 jobs:
   build:
