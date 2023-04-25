@@ -2,6 +2,11 @@ enabled: true
 name: summaryai/api
 image: :image
 port: 3000
+healthChecks:
+  readiness:
+    path: /health/index
+  liveness:
+    path: /health/index
 resources:
   replicas: 1
   instanceType: C4
