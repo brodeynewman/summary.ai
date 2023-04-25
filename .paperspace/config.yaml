@@ -11,7 +11,7 @@ resources:
   replicas: 1
   instanceType: C4
   autoscaling:
-    enabled: false
+    enabled: true
     maxReplicas: 2
     metrics:
       - metric: cpu
