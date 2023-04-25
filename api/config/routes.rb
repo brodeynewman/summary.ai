@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'health/index'
-  get 'questions/index'
-  get 'questions/show'
+  get 'health', to: 'health#index'
+  post 'questions', to: 'questions#create'
 end

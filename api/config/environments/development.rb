@@ -62,4 +62,7 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  # Use a different cache store in production.
+  config.cache_store = :redis_cache_store, {  url: 'redis://redis:6379'}
 end
