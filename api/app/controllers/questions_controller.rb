@@ -13,6 +13,8 @@ class QuestionsController < ApplicationController
       "this is an answer"
     end
 
+    Rails.logger.info "url: #{ENV['REDIS_URL']}"
+
     render json: { answer: answer }
   end
 end
