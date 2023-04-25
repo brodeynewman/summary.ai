@@ -32,7 +32,7 @@ ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN --environment=production bundle exec rails assets:precompile
+RUN bundle exec rails assets:precompile
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
