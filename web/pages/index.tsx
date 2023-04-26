@@ -1,13 +1,14 @@
 import { Inter } from 'next/font/google'
+import cn from 'classnames';
+import Image from 'next/image'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
+
+import Error from '../components/Error'
 
 import {
   useQuery,
-  useMutation,
-  useQueryClient,
 } from '@tanstack/react-query'
-import { FormEvent } from 'react'
 
 const QUESTIONS_URL = `${process.env.NEXT_PUBLIC_API_URL}/questions`
 
@@ -15,10 +16,11 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Question() {
   const [question, setQuestion] = useState('')
+  const [error, setError] = useState('')
+  const [answer, setAnswer] = useState('')
+  const [isLoading, setLoading] = useState(false)
 
-  console.log(question);
-
-  const { isLoading, error, data, isFetching, refetch } = useQuery({
+  const { refetch } = useQuery({
     queryFn: () =>
       axios
         .post(`${QUESTIONS_URL}?question=${question}`)
@@ -27,24 +29,44 @@ export default function Question() {
   });
 
   const handleSubmit = async (e: FormEvent) => {
-    console.log('submitting...');
+    setError('');
+    setLoading(true);
 
     e.preventDefault();
 
-    const res = await refetch();
+    try {
+      const { data } = await refetch();
 
-    console.log(res);
+      const { answer } = data;
+
+      if (answer) setAnswer(answer)
+    } catch (e) {
+      setError('An error occurred when doing AI stuff. The AI has been notified of this anomaly. Please try again later.');
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <main
-      className={`flex h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex max-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
-      <div className="bg-white py-16 sm:py-24">
+      <div className="bg-white sm:py-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="relative isolate overflow-hidden px-6 py-24 sm:rounded-3xl sm:px-24 xl:py-32">
-            <h2 className="mx-auto mt-2 max-w-xl text-center text-lg leading-8 text-gray-900 font-bold">
-              AI-powered book summarization. Ask The Alchemist a question.
+          <div className="relative isolate overflow-hidden px-6 sm:rounded-3xl sm:px-24">
+            <div>
+              <Image
+                src="alchemist.jpeg"
+                alt="Picture of the author"
+                className="aspect-[3/2] rounded-2xl mx-auto"
+                style={{ height: 250 }}
+                width={150}
+                height={300}
+              />
+            </div>
+
+            <h2 className="mx-auto mt-6 max-w-xl text-center text-lg leading-8 text-gray-900 font-bold" style={{ minWidth: 550 }}>
+              AI-powered book summarization.
             </h2>
             <form onSubmit={handleSubmit} className="mx-auto mt-5 max-w-md gap-x-4">
               <label htmlFor="question" className="sr-only">
@@ -65,8 +87,28 @@ export default function Question() {
                 />
               </div>
 
-              <button type="submit" className="w-24 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Ask
+              <div className="mt-2">
+                {error && <Error message={error} />}
+              </div>
+
+              <div>
+                {answer && (
+                  <div
+                    className="prose prose-sm mt-4 text-gray-500 text-sm"
+                  >
+                    <span className="font-bold">{answer}</span>
+                  </div>
+                )}
+              </div>
+
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className={cn("w-24 mt-4 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", {
+                  'opacity-50 hover:bg-indigo-600': isLoading
+                })}
+              >
+                {isLoading ? 'Asking...' : 'Ask'}
               </button>
             </form>
             <svg

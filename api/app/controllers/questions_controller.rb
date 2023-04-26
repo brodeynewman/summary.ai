@@ -26,22 +26,20 @@ class QuestionsController < ApplicationController
       raise ActionController::ParameterMissing.new("Missing question parameter")
     end
 
-    render json: { answer: "me" }
+    q = build_valid_query(params[:question])
+    md5 = Digest::MD5.hexdigest q
+    embeds = get_or_hash_query_embed(q)
+    ordered = order_by_similarity(embeds, formatted_embeds)
 
-    # q = build_valid_query(params[:question])
-    # md5 = Digest::MD5.hexdigest q
-    # embeds = get_or_hash_query_embed(q)
-    # ordered = order_by_similarity(embeds, formatted_embeds)
+    chosen_sections = choose_sections(ordered)
 
-    # chosen_sections = choose_sections(ordered)
+    joined = chosen_sections.join(" ")
+    answer = maybe_get_cached_answer(q, md5, joined)
 
-    # joined = chosen_sections.join(" ")
-    # answer = maybe_get_cached_answer(q, md5, joined)
-
-    # # I tried using resemble to create a clip, but their api kept responding with:
-    # # {"success"=>false, "message"=>"Sync requests are disabled for your account, contact us for help"}
-    # # even after I upgraded my account. Their api is also pretty slow, so I'm just going to ignore this for now.
-    # render json: { answer: answer }
+    # I tried using resemble to create a clip, but their api kept responding with:
+    # {"success"=>false, "message"=>"Sync requests are disabled for your account, contact us for help"}
+    # even after I upgraded my account. Their api is also pretty slow, so I'm just going to ignore this for now.
+    render json: { answer: answer }
   end
 
   def build_valid_query(query)
