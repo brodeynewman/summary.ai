@@ -1,16 +1,39 @@
 import { Inter } from 'next/font/google'
+import axios from 'axios'
+import { useState } from 'react'
 
 import {
   useQuery,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query'
+import { FormEvent } from 'react'
+
+const QUESTIONS_URL = `${process.env.NEXT_PUBLIC_API_URL}/questions`
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Question() {
-  const handleSubmit = () => {
+  const [question, setQuestion] = useState('')
+
+  console.log(question);
+
+  const { isLoading, error, data, isFetching, refetch } = useQuery({
+    queryFn: () =>
+      axios
+        .post(`${QUESTIONS_URL}?question=${question}`)
+        .then((res) => res.data),
+    enabled: false,
+  });
+
+  const handleSubmit = async (e: FormEvent) => {
     console.log('submitting...');
+
+    e.preventDefault();
+
+    const res = await refetch();
+
+    console.log(res);
   }
 
   return (
@@ -21,7 +44,7 @@ export default function Question() {
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative isolate overflow-hidden px-6 py-24 sm:rounded-3xl sm:px-24 xl:py-32">
             <h2 className="mx-auto mt-2 max-w-xl text-center text-lg leading-8 text-gray-900 font-bold">
-              AI-powered book summarization. Ask it a question.
+              AI-powered book summarization. Ask The Alchemist a question.
             </h2>
             <form onSubmit={handleSubmit} className="mx-auto mt-5 max-w-md gap-x-4">
               <label htmlFor="question" className="sr-only">
@@ -29,6 +52,9 @@ export default function Question() {
               </label>
               <div>
                 <textarea
+                  onChange={(e: any) => {
+                    setQuestion(e.target.value);
+                  }}
                   name="question"
                   required
                   maxLength={500}

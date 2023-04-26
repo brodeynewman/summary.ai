@@ -55,6 +55,7 @@ gem "ruby-openai"
 
 gem "tokenizers"
 
+gem 'rack-cors'
 
 gem "pdf-reader", "~> 2.11"
 
