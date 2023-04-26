@@ -29,6 +29,11 @@ ARG RAILS_MASTER_KEY
 
 RUN echo "${RAILS_MASTER_KEY}" > config/master.key
 
+# Uncomment to test production build before deploy
+# RUN mkdir /data/embeds -p
+# COPY alchemist-embeddings.csv /data/embeds/alchemist-embeddings.csv
+# COPY alchemist-pages.csv /data/embeds/alchemist-pages.csv
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
