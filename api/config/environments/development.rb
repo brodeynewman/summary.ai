@@ -61,4 +61,8 @@ Rails.application.configure do
     }
   }
   config.action_controller.perform_caching = true
+
+  # we expect these files to be in the root
+  config.embeds_file_path = Rails.root.join("alchemist-embeddings.csv")
+  config.pages_file_path = Rails.root.join("alchemist-pages.csv")
 end
