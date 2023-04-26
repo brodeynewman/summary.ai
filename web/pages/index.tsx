@@ -10,6 +10,9 @@ import {
   useQuery,
 } from '@tanstack/react-query'
 
+// use local next env, otherwise default to prod api endpoint.
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://d2144e2523c9346e88e275b14e5e5cbc0.clg07azjl.paperspacegradient.com/';
+
 const QUESTIONS_URL = `${process.env.NEXT_PUBLIC_API_URL}/questions`
 
 const inter = Inter({ subsets: ['latin'] })
