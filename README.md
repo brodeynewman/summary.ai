@@ -31,13 +31,15 @@ The process of this is as follows:
 
 ## Tradeoffs
 
-1. I decided to use Redis for caching since Rails has cache support nicely built in. Just needed a small redis instance and I was good to go.
+1. I decided to use Redis for caching since Rails has cache support nicely built in. Just needed a small redis instance and I was good to go. I ended up deploying a small instance on Runway.
 
-2. I did this for ease since this project is a simple POC. I would consider using a relational database to store embeds, questions, etc if this was beyond a proof project.
+2. I used Redis for ease since this project is a simple POC. I would consider using a relational database to store embeds, questions, etc if this was beyond a proof project.
 
 3. There is no auth, TLS on the nginx (frontend). The API has a TLS cert that is provided by Paperspace. Once again, I did this for sake of brevity. In a real world 
 
 4. Caching has basically useless in this scenario. I'm just proving a point that *some* persistence can be used with OpenAI.
+
+5. I attempted to use Resembles API for voice, but it was giving me trouble. It's also incredibly slow. You can see comments in the questions controller about that.
 
 ## Deployment
 
@@ -52,6 +54,15 @@ You can look at the [Paperspace Config](.paperspace/config.yaml) to learn more a
 This API runs on an Nvidia P6000. :)
 
 The entire app is backed by a CD process that runs in GitHub Actions. You can view my workflow [here](.github/workflows/main.yml).
+
+## Follow up
+
+The following improvements could be made:
+
+1. Add better API response / validations.
+2. Secure the API behind some limits / auth.
+3. TLS the UI.
+4. Improve caching.
 
 ## Final Notes
 
