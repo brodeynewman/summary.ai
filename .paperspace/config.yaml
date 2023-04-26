@@ -2,9 +2,14 @@ enabled: true
 name: summaryai/api
 image: :image
 port: 3000
+models:
+  - id: "mojf9tvp331y4h"
+    path: "/data/embeds"
 env:
   - name: REDIS_URL
-    value: secret:REDIS_URL
+    value: secret:BRODEY_SUMMARYAI_REDIS_URL
+  - name: OPEN_API_KEY
+    value: secret:BRODEY_OPEN_API_KEY
 healthChecks:
   readiness:
     path: /health
@@ -12,7 +17,7 @@ healthChecks:
     path: /health
 resources:
   replicas: 1
-  instanceType: C4
+  instanceType: P6000
   autoscaling:
     enabled: true
     maxReplicas: 2

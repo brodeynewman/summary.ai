@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.1.0)
     actioncable (7.0.4.3)
       actionpack (= 7.0.4.3)
       activesupport (= 7.0.4.3)
@@ -66,12 +67,16 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    afm (0.2.2)
+    backports (3.24.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.0)
     crass (1.0.6)
+    daru (0.3)
+      packable (~> 1.3.13)
     date (3.3.3)
     debug (1.7.2)
       irb (>= 1.5.0)
@@ -79,6 +84,10 @@ GEM
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    hashery (2.1.2)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -93,10 +102,12 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
+    matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.18.0)
     msgpack (1.7.0)
+    multi_xml (0.6.0)
     net-imap (0.3.4)
       date
       net-protocol
@@ -111,10 +122,20 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
+    packable (1.3.17)
+      backports
+    pdf-reader (2.11.0)
+      Ascii85 (~> 1.0)
+      afm (~> 0.2.1)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.2)
     rack (2.2.7)
+    rack-cors (2.0.1)
+      rack (>= 2.0.0)
     rack-test (2.1.0)
       rack (>= 1.3)
     rails (7.0.4.3)
@@ -150,10 +171,17 @@ GEM
       connection_pool
     reline (0.3.3)
       io-console (~> 0.5)
+    resemble (1.2.0)
+    ruby-openai (3.7.0)
+      httparty (>= 0.18.1)
+    ruby-rc4 (0.1.5)
     sqlite3 (1.6.2-aarch64-linux)
     sqlite3 (1.6.2-arm64-darwin)
     thor (1.2.1)
     timeout (0.3.2)
+    tokenizers (0.3.3-aarch64-linux)
+    tokenizers (0.3.3-arm64-darwin)
+    ttfunk (1.7.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     websocket-driver (0.7.5)
@@ -167,11 +195,18 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  daru (~> 0.3)
   debug
+  matrix (~> 0.4.2)
+  pdf-reader (~> 2.11)
   puma (~> 5.0)
+  rack-cors
   rails (~> 7.0.4, >= 7.0.4.3)
   redis
+  resemble (~> 1.2)
+  ruby-openai
   sqlite3 (~> 1.4)
+  tokenizers
   tzinfo-data
 
 RUBY VERSION

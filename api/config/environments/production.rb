@@ -91,4 +91,9 @@ Rails.application.configure do
     }
   }
   config.action_mailer.perform_caching = true
+
+  # i'm uploading these to a specific spot on the container FS
+  # see .paperspace/config.yaml
+  config.embeds_file_path = Rails.root.join("/data/embeds/alchemist-embeddings.csv")
+  config.pages_file_path = File.read("/data/embeds/alchemist-pages.csv")
 end
