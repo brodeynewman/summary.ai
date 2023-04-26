@@ -47,13 +47,17 @@ The UI uses a NextJS static dump and makes calls to a Rails API.
 
 The static files are hosted on S3 and the Rails api is hosted on [Paperspace](https://www.paperspace.com/gradient/deployments).
 
-The reason I chose S3 was because I'm lazy, and I chose Paperspace Deployments because I'm the lead developer on the product and I wanted to flex what I've been working on for a bit.
+The reason I chose S3 was because I'm lazy, and I chose Paperspace Deployments because I'm the lead developer on the product and I wanted to flex what I've been working on. :)
 
 You can look at the [Paperspace Config](.paperspace/config.yaml) to learn more about how this works. 
 
-This API runs on an Nvidia P6000. :)
+I ended up uploading the embeddings to a Dataset folder and referencing them in my Container Deployment. You can see where these live [here](./api/config/environments/production.rb#97).
+
+This API runs on an Nvidia P6000.
 
 The entire app is backed by a CD process that runs in GitHub Actions. You can view my workflow [here](.github/workflows/main.yml).
+
+The embeddings are 
 
 ## Follow up
 
