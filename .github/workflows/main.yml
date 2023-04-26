@@ -43,7 +43,7 @@ jobs:
         env:
           PAPERSPACE_API_KEY: ${{ secrets.PAPERSPACE_API_KEY }}
         with:
-          projectId: pq0q1mtej9w
+          projectId: pg3bjjc4ul7
           configPath: .paperspace/config.yaml
           image: brodeynewman/summaryai:${{ steps.docker-tag-name.outputs.DOCKER_TAG_NAME }}
 
