@@ -13,8 +13,6 @@ env:
 healthChecks:
   readiness:
     path: /health
-  liveness:
-    path: /health
 resources:
   replicas: 1
   instanceType: P6000
