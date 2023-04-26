@@ -31,7 +31,7 @@ The process of this is as follows:
 
 ## Tradeoffs
 
-1. I decided to use Redis for caching since Rails has cache support nicely built in. Just needed a small redis instance and I was good to go. I ended up deploying a small instance on Runway.
+1. I decided to use Redis for caching since Rails has cache support nicely built in. Just needed a small redis instance and I was good to go. I ended up deploying a small instance on [Render](https://render.com/).
 
 2. I used Redis for ease since this project is a simple POC. I would consider using a relational database to store embeds, questions, etc if this was beyond a proof project.
 
