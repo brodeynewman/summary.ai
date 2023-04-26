@@ -48,3 +48,16 @@ group :development do
   # gem "spring"
 end
 
+
+gem "resemble", "~> 1.2"
+
+gem "ruby-openai"
+
+gem "tokenizers"
+
+
+gem "pdf-reader", "~> 2.11"
+
+gem "daru", "~> 0.3"
+
+gem "matrix", "~> 0.4.2"
