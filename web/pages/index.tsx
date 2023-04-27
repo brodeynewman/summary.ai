@@ -24,7 +24,6 @@ export default function Question() {
 
   const { refetch } = useQuery({
     queryFn: () => {
-      console.log('called');
       return axios.post(`${QUESTIONS_URL}?question=${question}`).then((res) => res.data)
     },
     refetchIntervalInBackground: false,
