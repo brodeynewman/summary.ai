@@ -53,7 +53,7 @@ class QuestionsController < ApplicationController
 
     # I tried using resemble to create a clip, but their api kept responding with:
     # {"success"=>false, "message"=>"Sync requests are disabled for your account, contact us for help"}
-    # even after I upgraded my account. Their api is also pretty slow, so I'm just going to ignore this for now.
+    # even after I upgraded my account. Their api is also pretty slow, so I'm just going to ignore this for now...
     render json: { answer: answer }
   end
 

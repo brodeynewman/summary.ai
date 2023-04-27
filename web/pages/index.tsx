@@ -23,11 +23,19 @@ export default function Question() {
   const [isLoading, setLoading] = useState(false)
 
   const { refetch } = useQuery({
-    queryFn: () =>
-      axios
-        .post(`${QUESTIONS_URL}?question=${question}`)
-        .then((res) => res.data),
+    queryFn: () => {
+      console.log('called');
+      return axios.post(`${QUESTIONS_URL}?question=${question}`).then((res) => res.data)
+    },
+    refetchIntervalInBackground: false,
+    refetchInterval: false,
     enabled: false,
+    refetchOnWindowFocus: false,
+    onError: (e: any) => {
+      const err = e?.response?.data?.error;
+      
+      setError(`An error occurred when doing AI stuff: ${err ?? 'Unknown'}`);
+    }
   });
 
   const handleSubmit = async (e: FormEvent) => {
@@ -43,7 +51,7 @@ export default function Question() {
 
       if (answer) setAnswer(answer)
     } catch (e) {
-      setError('An error occurred when doing AI stuff. The AI has been notified of this anomaly. Please try again later.');
+      setError(`An error occurred when doing AI stuff. The AI has been notified of this anomaly.`);
     } finally {
       setLoading(false)
     }
