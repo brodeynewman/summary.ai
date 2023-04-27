@@ -16,7 +16,7 @@ healthChecks:
   liveness:
     path: /health
 resources:
-  replicas: 1
+  replicas: 2
   instanceType: P6000
   autoscaling:
     enabled: true
