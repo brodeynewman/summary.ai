@@ -13,14 +13,12 @@ env:
 healthChecks:
   readiness:
     path: /health
-  liveness:
-    path: /health
 resources:
   replicas: 2
   instanceType: P6000
   autoscaling:
     enabled: true
-    maxReplicas: 2
+    maxReplicas: 4
     metrics:
       - metric: cpu
         summary: average
