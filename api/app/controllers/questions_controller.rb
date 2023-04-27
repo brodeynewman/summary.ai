@@ -7,6 +7,17 @@ SEPARATOR = "\n* "
 MAX_SECTION_LEN = 500
 
 class QuestionsController < ApplicationController
+  rescue_from ActionController::BadRequest, with: :bad_request
+  rescue_from ActionController::ParameterMissing, with: :parameter_missing
+
+  def bad_request(exception)
+    render json: { error: exception.message }, status: :bad_request
+  end
+
+  def parameter_missing(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
+  end
+
   def get_prompt(sections, question)
     header = """Paulo Coelho is the author of the book The Alchemist, which has sold over 65 million copies worldwide. He is also a lyricist and novelist, having written many other best-selling books such as Brida, The Valkyries, and Eleven Minutes. These are questions and answers by him. Please keep your answers to three sentences maximum, and speak in complete sentences. Using the questions and the context given, answer the final question in this paragraph. It starts with 'Q:'. You should only respond with an answer. Stop speaking once your point is made.\n\nContext that may be useful, pulled from The Alchemist:\n"""
 
@@ -24,6 +35,10 @@ class QuestionsController < ApplicationController
   def create
     unless params[:question].present?
       raise ActionController::ParameterMissing.new("Missing question parameter")
+    end
+
+    if params[:question].length > 200 
+      raise ActionController::BadRequest.new('Question is too long. Max characters is 200.')
     end
 
     q = build_valid_query(params[:question])
